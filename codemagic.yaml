@@ -1,0 +1,29 @@
+# codemagic.yaml
+# Codemagic build configuration for BreastColonKPI
+# مؤشرات الأداء لأورام الثدي والقولون
+
+workflows:
+  ios-workflow:
+    name: iOS Workflow
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    environment:
+      vars:
+        XCODE_PROJECT: "BreastColonKPI.xcodeproj"
+        XCODE_SCHEME: "BreastColonKPI"
+      xcode: 15.2
+    scripts:
+      - name: Build ipa
+        script: |
+          xcode-project build-ipa \
+            --project "$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      email:
+        recipients:
+          - user@example.com
+        notify:
+          success: true
+          failure: true
